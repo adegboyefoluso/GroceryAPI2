@@ -42,7 +42,7 @@ namespace GroceryAPI2.Services
                     entity.Ingredients.Add(query);
                 }
                 ctx.IngredientLists.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() >=1;
             }
         }
         //Get Ingredient List
@@ -59,7 +59,7 @@ namespace GroceryAPI2.Services
                                     ListOfIngredientDetails = e.Ingredients.Select(p => new IngredientDetail()
                                     {
                                         IngredientId = p.IngredientId,
-                                        IngredientAmount = p.AmountOfIngredient,
+                                        //IngredientAmount = p.AmountOfIngredient,
                                         IngredientName = p.Name,
                                         IsOrganic = p.IsOrganic
                                     }).ToList()
@@ -84,7 +84,7 @@ namespace GroceryAPI2.Services
                     ListOfIngredientDetails = query.Ingredients.Select(p => new IngredientDetail()
                     {
                         IngredientId = p.IngredientId,
-                        IngredientAmount = p.AmountOfIngredient,
+                        //IngredientAmount = p.AmountOfIngredient,
                         IngredientName = p.Name,
                         IsOrganic = p.IsOrganic
                     }).ToList()
@@ -140,4 +140,4 @@ namespace GroceryAPI2.Services
         }
     }
 }
-}
+

@@ -63,7 +63,10 @@
     <Compile Include="IngredientListModel\IngredientListEdit.cs" />
     <Compile Include="IngredientListModel\RecipeList.cs" />
     <Compile Include="IngredientModel\IngredientCreate.cs" />
+    <Compile Include="IngredientModel\IngredientListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecipeModel\RecipeCreate.cs" />
+    <Compile Include="RecipeModel\RecipeListItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
