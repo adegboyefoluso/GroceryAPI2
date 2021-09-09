@@ -59,7 +59,7 @@ namespace GroceryAPI2.Services
                                     ListOfIngredientDetails = e.Ingredients.Select(p => new IngredientDetail()
                                     {
                                         IngredientId = p.IngredientId,
-                                        IngredientAmount = p.AmountOfIngredient,
+                                        //IngredientAmount = p.AmountOfIngredient,
                                         IngredientName = p.Name,
                                         IsOrganic = p.IsOrganic
                                     }).ToList()
@@ -84,7 +84,7 @@ namespace GroceryAPI2.Services
                     ListOfIngredientDetails = query.Ingredients.Select(p => new IngredientDetail()
                     {
                         IngredientId = p.IngredientId,
-                        IngredientAmount = p.AmountOfIngredient,
+                        //IngredientAmount = p.AmountOfIngredient,
                         IngredientName = p.Name,
                         IsOrganic = p.IsOrganic
                     }).ToList()

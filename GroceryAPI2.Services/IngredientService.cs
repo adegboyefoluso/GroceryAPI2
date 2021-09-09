@@ -10,10 +10,10 @@ namespace GroceryAPI2.Services
 {
     public class IngredientService
     {
-        private readonly Guid _UserId;
+        private readonly Guid _userId;
         public IngredientService(Guid userid)
         {
-            _UserId = userid;
+            _userId = userid;
         }
 
         // Create
@@ -34,6 +34,26 @@ namespace GroceryAPI2.Services
         }
 
         // Read
+        public IEnumerable<IngredientListItem> GetIngredients()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                    ctx
+                    .Ingredients
+                    .Where(e => e.OwnerId == _userId)
+                    .Select(
+                        e =>
+                        new IngredientListItem
+                        {
+                            IngredientId = e.IngredientId,
+                            Name = e.Name,
+                            IsOrganic = e.IsOrganic
+                        }
+                        );
+                return query.ToArray();
+            }
+        }
 
         // Update
 

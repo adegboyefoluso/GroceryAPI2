@@ -19,6 +19,6 @@ namespace GroceryAPI2.DATA
         {
             IngredientsList = new HashSet<IngredientList>();
         }
-        public int AmountOfIngredient { get; set; }
+        // public int AmountOfIngredient { get; set; }
     }
 }
