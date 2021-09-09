@@ -42,7 +42,7 @@ namespace GroceryAPI2.Services
                     entity.Ingredients.Add(query);
                 }
                 ctx.IngredientLists.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() >=1;
             }
         }
         //Get Ingredient List

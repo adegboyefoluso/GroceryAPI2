@@ -1,4 +1,5 @@
 ﻿using GroceryAPI2.DATA;
+using GroceryAPI2.MODEL.IngredientListModel;
 using GroceryAPI2.MODEL.RecipeModel;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ namespace GroceryAPI2.Services
             {
                 Name = model.Name,
                 CreatedUtc = DateTimeOffset.Now,
-                RecipeDescription = model.RecipeDescription
+                RecipeDescription = model.RecipeDescription,
+                OwnerId=_UserId
             };
             using (var ctx= new ApplicationDbContext())
             {
@@ -42,9 +44,93 @@ namespace GroceryAPI2.Services
                     recipe.IngredientLists.Add(query);
                 }
                 ctx.Recipes.Add(recipe);
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() >= 1;
             }
             
         }
+        //Get All recipe
+        public IEnumerable<RecipeListItem> GetALlRecipe()
+        {
+            using (var ctx =new ApplicationDbContext())
+            {
+                var recipe = ctx
+                                .Recipes
+                                .Select(e => new RecipeListItem
+                                {
+                                    RecipeId = e.RecipeId,
+                                    RecipeDescription = e.RecipeDescription,
+                                    Name = e.Name,
+                                    IngredientList = e.IngredientLists
+                                                    .Select(c => new IngredientListDetail()
+                                                    {
+                                                        IngredientListId = c.IngredientListId,
+                                                        IngredientListName = c.Name,
+                                                        ListOfIngredientDetails = c.Ingredients
+                                                                                  .Select(d => new IngredientDetail
+                                                                                  {
+                                                                                      IngredientId = d.IngredientId,
+                                                                                      IngredientName = d.Name,
+                                                                                      IsOrganic = d.IsOrganic
+                                                                                  }).ToList()
+
+
+                                                    }).ToList()
+                                }).ToList();
+                return recipe;
+            }
+        }
+
+        //Get Recipe By Recipe Id
+        public  RecipeListItem GetRecipeById(int id)
+        {
+            using (var ctx=new ApplicationDbContext())
+            {
+                var query = ctx
+                                .Recipes
+                                .SingleOrDefault(e => e.RecipeId == id);
+                if (query is null)
+                    return null;
+                return new RecipeListItem()
+                {
+                    RecipeId = query.RecipeId,
+                    Name = query.Name,
+                    RecipeDescription = query.RecipeDescription,
+                    IngredientList = query.IngredientLists
+                                                    .Select(c => new IngredientListDetail()
+                                                    {
+                                                        IngredientListId = c.IngredientListId,
+                                                        IngredientListName = c.Name,
+                                                        ListOfIngredientDetails = c.Ingredients
+                                                                                  .Select(d => new IngredientDetail
+                                                                                  {
+                                                                                      IngredientId = d.IngredientId,
+                                                                                      IngredientName = d.Name,
+                                                                                      IsOrganic = d.IsOrganic
+                                                                                  }).ToList()
+
+
+                                                    }).ToList()
+
+                };
+                                
+            }
+        }
+        //Delete A recipe
+        public bool DeleteRecipe(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx
+                                .Recipes
+                                .SingleOrDefault(e => e.OwnerId == _UserId && e.RecipeId == id);
+                if (query is null)
+                    return false;
+                ctx.Recipes.Remove(query);
+                return ctx.SaveChanges() == 1;
+            }
+        }
+        //Edit A Recipe
+
+         
     }
 }
