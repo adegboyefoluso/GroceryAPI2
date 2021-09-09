@@ -138,6 +138,29 @@ namespace GroceryAPI2.Services
                 return recipes;
             }
         }
+
+        // Remove Ingredient From IngredientList
+        public bool DeleteIngredientfromIngredientList(DeleteIngredient model)
+        {
+            using(var ctx =new ApplicationDbContext())
+            {
+                var query =
+                            ctx
+                                .IngredientLists.SingleOrDefault(e => e.IngredientListId == model.IngredientListId);
+                if (query is null)
+                    return false;
+                foreach (var id in model.IngredientIds)
+                {
+                    var entity = query.Ingredients.SingleOrDefault(e => e.IngredientId == id);
+                    if(entity != null)
+                    {
+                        query.Ingredients.Remove(entity);
+                    }
+                    return false;
+                }
+                return ctx.SaveChanges() >= 1;
+            }
+        }
     }
 }
 
