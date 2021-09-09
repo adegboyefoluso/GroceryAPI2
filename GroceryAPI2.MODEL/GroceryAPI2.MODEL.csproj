@@ -63,6 +63,7 @@
     <Compile Include="IngredientListModel\IngredientListEdit.cs" />
     <Compile Include="IngredientListModel\RecipeList.cs" />
     <Compile Include="IngredientModel\IngredientCreate.cs" />
+    <Compile Include="IngredientModel\IngredientListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
