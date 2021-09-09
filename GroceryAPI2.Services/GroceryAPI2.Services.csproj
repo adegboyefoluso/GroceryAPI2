@@ -60,6 +60,7 @@
     <Compile Include="IngredientListServices.cs" />
     <Compile Include="IngredientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecipeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GroceryAPI2.DATA\GroceryAPI2.DATA.csproj">
