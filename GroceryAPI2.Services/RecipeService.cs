@@ -166,7 +166,7 @@ namespace GroceryAPI2.Services
             }
         }
         // Get Recipe that contain this  ingredient
-        public IEnumerable<Recipe> GetRecipeSByIngredient(int id)
+        public IEnumerable<RecipeDetail> GetRecipeSByIngredient(int id)
         {
             using (var ctx =new ApplicationDbContext())
             {
@@ -183,13 +183,17 @@ namespace GroceryAPI2.Services
                         {
                             if (d.IngredientId == id)
                             {
-                                list.Add(item);
+                                var recipeDetail = new RecipeDetail();
+                                recipeDetail.RecipeId = item.RecipeId;
+                                recipeDetail.RecipeName = item.Name;
+                                recipeDetail.RecipeDescription = item.RecipeDescription;
+                                list2.Add(recipeDetail);
                             }
                         }
                     }
                 }
                 
-                return list;
+                return list2;
                   
             }
         }
@@ -201,7 +205,7 @@ namespace GroceryAPI2.Services
         //        List<Recipe> list = new List<Recipe>();
         //        var recipe = ctx
         //                        .Recipes
-        //                        .Where(r=>r.IngredientLists.Select(e=>e.Ingredients.SingleOrDefault(m=>m.IngredientId==id)))
+        //                        .Where(r => r.IngredientLists.Where(e => e.Ingredients.Where(m => m.IngredientId == id)))
         //        foreach (var item in recipe)
         //        {
         //            foreach (var c in item.IngredientLists)
