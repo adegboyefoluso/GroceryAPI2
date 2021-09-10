@@ -33,6 +33,16 @@ namespace GroceryAPI2.Controllers
 
             return Ok("Recipe Created Successfully");
         }
+        [Route("api/IngredientList/AddIngredient")]
+        [HttpPost]
+        public IHttpActionResult AddIngredientToIngredientList(DeleteIngredient model)
+        {
+            var service = CreateIngredientListServices();
+            var ingredientlist = service.AddIngredientToIngredientList(model);
+            if (ingredientlist is false)
+                return InternalServerError();
+            return Ok("Ingredient succesfully Added");
+        }
         [HttpGet]
         public IHttpActionResult GetAllIngredeientList()
         {
@@ -61,6 +71,25 @@ namespace GroceryAPI2.Controllers
                 return InternalServerError();
             return Ok(ingredientlist);
         }
+        [HttpDelete]
+        public IHttpActionResult DeleteIngredientFromIngredientList(DeleteIngredient model)
+        {
+            var service = CreateIngredientListServices();
+            var ingredientlist = service.DeleteIngredientfromIngredientList(model);
+            if (ingredientlist is false)
+                return InternalServerError();
+            return Ok("Ingredient succesfully deleted");
+        }
+        [HttpDelete]
+        public IHttpActionResult DeleteIngredientList(int id)
+        {
+            var service = CreateIngredientListServices();
+            var ingredientlist = service.DeleteIngredientList(id);
+            if (ingredientlist is false)
+                return InternalServerError();
+            return Ok("Ingredient succesfully deleted");
+        }
+
 
     }
 }

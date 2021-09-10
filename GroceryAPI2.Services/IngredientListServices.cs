@@ -142,21 +142,51 @@ namespace GroceryAPI2.Services
         // Remove Ingredient From IngredientList
         public bool DeleteIngredientfromIngredientList(DeleteIngredient model)
         {
-            using(var ctx =new ApplicationDbContext())
+            List<int> integers = new List<int>();
+            using (var ctx =new ApplicationDbContext())
             {
-                var query =
-                            ctx
+                var query = ctx
                                 .IngredientLists.SingleOrDefault(e => e.IngredientListId == model.IngredientListId);
                 if (query is null)
                     return false;
                 foreach (var id in model.IngredientIds)
                 {
                     var entity = query.Ingredients.SingleOrDefault(e => e.IngredientId == id);
-                    if(entity != null)
+                    if(entity == null)
                     {
-                        query.Ingredients.Remove(entity);
+                        integers.Add(id);
+                        if (integers.Count == model.IngredientIds.Count)
+                            return false;
+                        continue;                       
                     }
+                    query.Ingredients.Remove(entity);                    
+                }
+                return  ctx.SaveChanges()>=1;
+            }
+        }
+
+        public bool AddIngredientToIngredientList(DeleteIngredient model)
+        {
+            List<int> integers = new List<int>();
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx
+                                .IngredientLists.SingleOrDefault(e => e.IngredientListId == model.IngredientListId);
+                if (query is null)
                     return false;
+                foreach (var id in model.IngredientIds)
+                {
+                    var ingredient = ctx
+                                   .Ingredients
+                                   .SingleOrDefault(i => i.IngredientId == id);
+                    if (ingredient is null)
+                    {
+                        integers.Add(id);
+                        if (integers.Count == model.IngredientIds.Count)
+                            return false;
+                        continue;
+                    }
+                   query.Ingredients.Add(ingredient);
                 }
                 return ctx.SaveChanges() >= 1;
             }

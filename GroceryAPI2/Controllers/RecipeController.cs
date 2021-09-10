@@ -33,5 +33,12 @@ namespace GroceryAPI2.Controllers
 
             return Ok("Recipe Created Successfully");
         }
+        [HttpGet]
+        public IHttpActionResult GetAllRecipe()
+        {
+            var service = CreateRecipeServices();
+            var recipes = service.GetALlRecipe();
+            return Ok(recipes);
+        }
     }
 }
