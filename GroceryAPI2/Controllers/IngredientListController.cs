@@ -19,7 +19,7 @@ namespace GroceryAPI2.Controllers
             return services;
         }
 
-
+        //Create an IngredientList and add Ingredients to the List
         [HttpPost]
         public IHttpActionResult Post(IngredientListCreate model)
         {
@@ -33,8 +33,9 @@ namespace GroceryAPI2.Controllers
 
             return Ok("Recipe Created Successfully");
         }
+        //Add an Ingredient to an IngredientList
         [Route("api/IngredientList/AddIngredient")]
-        [HttpPost]
+        [HttpPut]
         public IHttpActionResult AddIngredientToIngredientList(DeleteIngredient model)
         {
             var service = CreateIngredientListServices();
@@ -43,6 +44,7 @@ namespace GroceryAPI2.Controllers
                 return InternalServerError();
             return Ok("Ingredient succesfully Added");
         }
+        // Get all  Ingredient
         [HttpGet]
         public IHttpActionResult GetAllIngredeientList()
         {
@@ -51,6 +53,7 @@ namespace GroceryAPI2.Controllers
             return Ok(ingredientlist);
 
         }
+        //Get Ingredient list by Id
         [HttpGet]
         public IHttpActionResult GetShoppingList(int id)
         {
@@ -60,6 +63,8 @@ namespace GroceryAPI2.Controllers
                 return InternalServerError();
             return Ok(ingredientlist);
         }
+
+        //Get Ingredient List  by Recipe id
        
         [Route("api/IngredientList/GetRecipe{id}")]
         [HttpGet]
@@ -71,6 +76,8 @@ namespace GroceryAPI2.Controllers
                 return InternalServerError();
             return Ok(ingredientlist);
         }
+
+        //Delete Ingredient form Ingredient List
         [HttpDelete]
         public IHttpActionResult DeleteIngredientFromIngredientList(DeleteIngredient model)
         {
@@ -80,6 +87,7 @@ namespace GroceryAPI2.Controllers
                 return InternalServerError();
             return Ok("Ingredient succesfully deleted");
         }
+        //Delete Ingredient List
         [HttpDelete]
         public IHttpActionResult DeleteIngredientList(int id)
         {
