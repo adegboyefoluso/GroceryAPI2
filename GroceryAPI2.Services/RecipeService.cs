@@ -131,6 +131,63 @@ namespace GroceryAPI2.Services
         }
         //Edit A Recipe
 
-         
+       // Get Recipe By Name
+       public IEnumerable< RecipeListItem> GetRecipeByName(string name)
+        {
+            using(var ctx =new ApplicationDbContext())
+            {
+                var recipe = ctx
+                                .Recipes
+                                .Where(e => e.Name.Contains(name))
+                                .Select(e => new RecipeListItem()
+                                {
+                                    RecipeId = e.RecipeId,
+                                    Name = e.Name,
+                                    RecipeDescription = e.RecipeDescription,
+                                    IngredientList = e.IngredientLists
+                                                    .Select(c => new IngredientListDetail()
+                                                    {
+                                                        IngredientListId = c.IngredientListId,
+                                                        IngredientListName = c.Name,
+                                                        ListOfIngredientDetails = c.Ingredients
+                                                                                  .Select(d => new IngredientDetail
+                                                                                  {
+                                                                                      IngredientId = d.IngredientId,
+                                                                                      IngredientName = d.Name,
+                                                                                      IsOrganic = d.IsOrganic
+                                                                                  }).ToList()
+
+
+                                                    }).ToList()
+
+                                }).ToList();
+                return recipe;
+            }
+        }
+
+        public IEnumerable<Recipe> GetRecipeSByIngredient(int id)
+        {
+            using (var ctx =new ApplicationDbContext())
+            {
+                List<Recipe> list = new List<Recipe>();
+                var recipe = ctx
+                                .Recipes.ToList();
+                foreach (var item in recipe)
+                {
+                    foreach(var c in item.IngredientLists)
+                    {
+                        foreach (var d in c.Ingredients)
+                        {
+                            if (d.IngredientId == id)
+                            {
+                                list.Add(item);
+                            }
+                        }
+                    }
+                }
+                return list;
+                  
+            }
+        }
     }
 }
