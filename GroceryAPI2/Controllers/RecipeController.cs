@@ -40,5 +40,22 @@ namespace GroceryAPI2.Controllers
             var recipes = service.GetALlRecipe();
             return Ok(recipes);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetAllRecipeById(int id)
+        {
+            var service = CreateRecipeServices();
+            var recipes = service.GetRecipeById(id);
+            return Ok(recipes);
+        }
+
+        [Route("api/Recipe/RecipeByName/{name}")]
+        [HttpGet]
+        public IHttpActionResult GetRecipeByName(string name)
+        {
+            var service = CreateRecipeServices();
+            var recipes = service.GetRecipeByName(name);
+            return Ok(recipes);
+        }
     }
 }

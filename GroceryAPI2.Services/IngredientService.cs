@@ -41,7 +41,7 @@ namespace GroceryAPI2.Services
                 var query =
                     ctx
                     .Ingredients
-                    .Where(e => e.OwnerId == _userId)
+                    //.Where(e => e.OwnerId == _userId)
                     .Select(
                         e =>
                         new IngredientListItem
