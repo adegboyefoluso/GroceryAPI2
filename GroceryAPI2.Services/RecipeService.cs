@@ -17,6 +17,7 @@ namespace GroceryAPI2.Services
             _UserId = userid;
         }
 
+        // Create Recipe 
         public bool AddRecipe(RecipeCreate model)
         {
             List<int> integers = new List<int>();
@@ -164,14 +165,16 @@ namespace GroceryAPI2.Services
                 return recipe;
             }
         }
-
+        // Get Recipe that contain this  ingredient
         public IEnumerable<Recipe> GetRecipeSByIngredient(int id)
         {
             using (var ctx =new ApplicationDbContext())
             {
                 List<Recipe> list = new List<Recipe>();
+                List<RecipeDetail> list2 = new List<RecipeDetail>();
                 var recipe = ctx
-                                .Recipes.ToList();
+                                .Recipes
+                                .ToList();
                 foreach (var item in recipe)
                 {
                     foreach(var c in item.IngredientLists)
@@ -185,9 +188,36 @@ namespace GroceryAPI2.Services
                         }
                     }
                 }
+                
                 return list;
                   
             }
         }
+
+        //public IEnumerable<RecipeDetail> GetRecipeByIngredient(int id)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        List<Recipe> list = new List<Recipe>();
+        //        var recipe = ctx
+        //                        .Recipes
+        //                        .Where(r=>r.IngredientLists.Select(e=>e.Ingredients.SingleOrDefault(m=>m.IngredientId==id)))
+        //        foreach (var item in recipe)
+        //        {
+        //            foreach (var c in item.IngredientLists)
+        //            {
+        //                foreach (var d in c.Ingredients)
+        //                {
+        //                    if (d.IngredientId == id)
+        //                    {
+        //                        list.Add(item);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        return list;
+
+        //    }
+        //}
     }
 }
